@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="John Tuong">
+
+<title>Week 5 - Read/Modify/Summarize Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 5 - Read/Modify/Summarize Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>John Tuong </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="task-1-read-in-the-data-and-modify" class="level2">
+<h2 class="anchored" data-anchor-id="task-1-read-in-the-data-and-modify">Task 1: Read in the Data and Modify</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install and load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyr")</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("ggplot2")</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="first-used-code-provided-with-download-to-load-in-both-data-frames-and-merge-them." class="level4">
+<h4 class="anchored" data-anchor-id="first-used-code-provided-with-download-to-load-in-both-data-frames-and-merge-them.">First, used code provided with download to load in both data frames and merge them.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Used code provided </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"student-mat.csv"</span>,<span class="at">sep=</span><span class="st">";"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"student-por.csv"</span>,<span class="at">sep=</span><span class="st">";"</span>,<span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>d3 <span class="ot">=</span> <span class="fu">merge</span>(d1, d2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"school"</span>,<span class="st">"sex"</span>,<span class="st">"age"</span>,<span class="st">"address"</span>,<span class="st">"famsize"</span>,<span class="st">"Pstatus"</span>,<span class="st">"Medu"</span>,<span class="st">"Fedu"</span>,<span class="st">"Mjob"</span>,<span class="st">"Fjob"</span>,<span class="st">"reason"</span>,<span class="st">"nursery"</span>,<span class="st">"internet"</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">nrow</span>(d3)) <span class="co"># 382 students</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 382</code></pre>
+</div>
+</div>
+</section>
+<section id="second-using-tidyverse-functions-read-in-data-using-read_csv2-due-to-and-created-an-inner-join-using-only-variables-from-d3." class="level4">
+<h4 class="anchored" data-anchor-id="second-using-tidyverse-functions-read-in-data-using-read_csv2-due-to-and-created-an-inner-join-using-only-variables-from-d3.">Second, using tidyverse functions, read in data using read_csv2 (due to “;”) and created an inner join using only variables from d3.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load .csv files using a local path</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mat_data <span class="ot">&lt;-</span> <span class="fu">as.tibble</span>(<span class="fu">read.csv2</span>(<span class="st">"student-mat.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+ℹ Please use `as_tibble()` instead.
+ℹ The signature and semantics have changed, see `?as_tibble`.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>por_data <span class="ot">&lt;-</span> <span class="fu">as.tibble</span>(<span class="fu">read.csv2</span>(<span class="st">"student-por.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>inner_df <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(mat_data, por_data, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"school"</span>, <span class="st">"sex"</span>, <span class="st">"age"</span>, <span class="st">"address"</span>, <span class="st">"famsize"</span>, <span class="st">"Pstatus"</span>, <span class="st">"Medu"</span>, <span class="st">"Fedu"</span>, <span class="st">"Mjob"</span>, <span class="st">"Fjob"</span>, <span class="st">"reason"</span>, <span class="st">"nursery"</span>, <span class="st">"internet"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in inner_join(mat_data, por_data, by = c("school", "sex", "age", : Detected an unexpected many-to-many relationship between `x` and `y`.
+ℹ Row 79 of `x` matches multiple rows in `y`.
+ℹ Row 79 of `y` matches multiple rows in `x`.
+ℹ If a many-to-many relationship is expected, set `relationship =
+  "many-to-many"` to silence this warning.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When inner_joined, there were two issues: one was a warning message (In inner_join(mat_data, por_data, by = c("school", "sex", "age",  : Detected an unexpected many-to-many relationship between `x` and `y`.) and the second was that the variables "nursery" and "internet" were out of place compared to the table in d3.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="third-here-we-use-an-inner_join-all-variables-except-for-g1-g2-g3-paid-and-absences." class="level4">
+<h4 class="anchored" data-anchor-id="third-here-we-use-an-inner_join-all-variables-except-for-g1-g2-g3-paid-and-absences.">Third, here we use an inner_join all variables except for G1, G2, G3, paid, and absences.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>final_join <span class="ot">&lt;-</span> mat_data <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span> (por_data <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>G1, <span class="sc">-</span>G2, <span class="sc">-</span>G3, <span class="sc">-</span>paid, <span class="sc">-</span>absences))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(school, sex, age, address, famsize, Pstatus, Medu,
+Fedu, Mjob, Fjob, reason, guardian, traveltime, studytime, failures, schoolsup,
+famsup, activities, nursery, higher, internet, romantic, famrel, freetime,
+goout, Dalc, Walc, health)`</code></pre>
+</div>
+</div>
+</section>
+<section id="last-were-choosing-4-categorical-variables-sex-address-famsize-pstatus-were-interested-in-and-converting-them-into-factor-variables-in-each-tibble.-were-doing-this-for-the-math-data-portuguese-data-and-the-combined-data-each." class="level4">
+<h4 class="anchored" data-anchor-id="last-were-choosing-4-categorical-variables-sex-address-famsize-pstatus-were-interested-in-and-converting-them-into-factor-variables-in-each-tibble.-were-doing-this-for-the-math-data-portuguese-data-and-the-combined-data-each.">Last, we’re choosing 4 categorical variables (sex, address, famsize, Pstatus) we’re interested in and converting them into factor variables in each tibble. We’re doing this for the math data, POrtuguese data, and the combined data each.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using mutate for each tibble conversion, we'll coerce the interested variables into factors.</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mat_data <span class="ot">&lt;-</span> mat_data <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">as.factor</span>(sex), </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">address =</span> <span class="fu">as.factor</span>(address), </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">famsize =</span> <span class="fu">as.factor</span>(famsize), </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Pstatus =</span> <span class="fu">as.factor</span>(Pstatus))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>por_data <span class="ot">&lt;-</span> por_data <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">as.factor</span>(sex), </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">address =</span> <span class="fu">as.factor</span>(address), </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">famsize =</span> <span class="fu">as.factor</span>(famsize), </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">Pstatus =</span> <span class="fu">as.factor</span>(Pstatus))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>final_join <span class="ot">&lt;-</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">as.factor</span>(sex), </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">address =</span> <span class="fu">as.factor</span>(address), </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">famsize =</span> <span class="fu">as.factor</span>(famsize), </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">Pstatus =</span> <span class="fu">as.factor</span>(Pstatus))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recoded these variables with their respective levels.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>final_join <span class="ot">&lt;-</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sex =</span> <span class="fu">recode</span>(sex, <span class="st">"F"</span> <span class="ot">=</span> <span class="st">"Female"</span>, <span class="st">"M"</span> <span class="ot">=</span> <span class="st">"Male"</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">address =</span> <span class="fu">recode</span>(address, <span class="st">"U"</span> <span class="ot">=</span> <span class="st">"Urban"</span>, <span class="st">"R"</span> <span class="ot">=</span> <span class="st">"Rural"</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">famsize =</span> <span class="fu">recode</span>(famsize, <span class="st">"LE3"</span> <span class="ot">=</span> <span class="st">"less or equal to 3"</span>, <span class="st">"GT3"</span> <span class="ot">=</span> <span class="st">"greater than 3"</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Pstatus =</span> <span class="fu">recode</span>(Pstatus, <span class="st">"A"</span> <span class="ot">=</span> <span class="st">"apart"</span>, <span class="st">"T"</span> <span class="ot">=</span> <span class="st">"living together"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="task-2-summarize-the-data-very-basic-eda" class="level2">
+<h2 class="anchored" data-anchor-id="task-2-summarize-the-data-very-basic-eda">Task 2: Summarize the Data (Very Basic EDA</h2>
+<section id="for-the-items-on-the-combined-data-final_join-well-be-doing-the-following-one-looking-at-how-the-data-is-stored-and-two-documenting-the-missing-values-in-the-data." class="level4">
+<h4 class="anchored" data-anchor-id="for-the-items-on-the-combined-data-final_join-well-be-doing-the-following-one-looking-at-how-the-data-is-stored-and-two-documenting-the-missing-values-in-the-data.">For the items on the combined data, final_join, we’ll be doing the following: one, looking at how the data is stored and two, documenting the missing values in the data.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Here we print final_join to confirm and check our column types. As seen below, sex, address, famsize, and Pstatus are the correct column types of factor.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(final_join)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 320 × 33
+   school sex      age address famsize    Pstatus  Medu  Fedu Mjob  Fjob  reason
+   &lt;chr&gt;  &lt;fct&gt;  &lt;int&gt; &lt;fct&gt;   &lt;fct&gt;      &lt;fct&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; 
+ 1 GP     Female    18 Urban   greater t… apart       4     4 at_h… teac… course
+ 2 GP     Female    17 Urban   greater t… living…     1     1 at_h… other course
+ 3 GP     Female    15 Urban   greater t… living…     4     2 heal… serv… home  
+ 4 GP     Female    16 Urban   greater t… living…     3     3 other other home  
+ 5 GP     Male      16 Urban   less or e… living…     4     3 serv… other reput…
+ 6 GP     Male      16 Urban   less or e… living…     2     2 other other home  
+ 7 GP     Female    17 Urban   greater t… apart       4     4 other teac… home  
+ 8 GP     Male      15 Urban   less or e… apart       3     2 serv… other home  
+ 9 GP     Male      15 Urban   greater t… living…     3     4 other other home  
+10 GP     Female    15 Urban   greater t… living…     4     4 teac… heal… reput…
+# ℹ 310 more rows
+# ℹ 22 more variables: guardian &lt;chr&gt;, traveltime &lt;int&gt;, studytime &lt;int&gt;,
+#   failures &lt;int&gt;, schoolsup &lt;chr&gt;, famsup &lt;chr&gt;, paid &lt;chr&gt;,
+#   activities &lt;chr&gt;, nursery &lt;chr&gt;, higher &lt;chr&gt;, internet &lt;chr&gt;,
+#   romantic &lt;chr&gt;, famrel &lt;int&gt;, freetime &lt;int&gt;, goout &lt;int&gt;, Dalc &lt;int&gt;,
+#   Walc &lt;int&gt;, health &lt;int&gt;, absences &lt;int&gt;, G1 &lt;int&gt;, G2 &lt;int&gt;, G3 &lt;int&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Documenting the missing values by using colSums(is.na()). There are no missing values as seen below. </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">colSums</span>(<span class="fu">is.na</span>(final_join)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    school        sex        age    address    famsize    Pstatus       Medu 
+         0          0          0          0          0          0          0 
+      Fedu       Mjob       Fjob     reason   guardian traveltime  studytime 
+         0          0          0          0          0          0          0 
+  failures  schoolsup     famsup       paid activities    nursery     higher 
+         0          0          0          0          0          0          0 
+  internet   romantic     famrel   freetime      goout       Dalc       Walc 
+         0          0          0          0          0          0          0 
+    health   absences         G1         G2         G3 
+         0          0          0          0          0 </code></pre>
+</div>
+</div>
+</section>
+<section id="categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="categorical-variables"><em>Categorical Variables</em></h3>
+<section id="here-we-create-a-one-way-two-way-and-three-way-contingency-table.-contingency-tables-show-the-distribution-of-a-variable-in-the-rows-and-another-in-its-columns." class="level4">
+<h4 class="anchored" data-anchor-id="here-we-create-a-one-way-two-way-and-three-way-contingency-table.-contingency-tables-show-the-distribution-of-a-variable-in-the-rows-and-another-in-its-columns.">Here we create a one-way, two-way, and three-way contingency table. Contingency tables show the distribution of a variable in the rows and another in its columns.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># One-way contingency table. Below you can see a table of F(female) 174 and M(male) 146. Taking 174, this means that in this final_join, there are a total of 174 females. </span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(final_join<span class="sc">$</span>sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Female   Male 
+   174    146 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two-way contingency table. Below we'll take F,GT3 130. This means that based on all family sizes of GT3 (greater &gt; 3), there are a total of 130 females, i.e., this value represents the total number of females that come from family sizes with 3 or more people. </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(final_join<span class="sc">$</span>sex, final_join<span class="sc">$</span>famsize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+         greater than 3 less or equal to 3
+  Female            130                 44
+  Male              100                 46</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Three-way contingency table. This time we added Pstatus (parent's cohabitation status - 'T' = living together or 'A' = apart). Below we'll take A,F,GT3 12. This value 12 represents the total amount of female that come from family sizes with 3 or more people with parents' that live apart from each other.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(final_join<span class="sc">$</span>sex, final_join<span class="sc">$</span>famsize, final_join<span class="sc">$</span>Pstatus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>, ,  = apart
+
+        
+         greater than 3 less or equal to 3
+  Female             12                  6
+  Male                4                  9
+
+, ,  = living together
+
+        
+         greater than 3 less or equal to 3
+  Female            118                 38
+  Male               96                 37</code></pre>
+</div>
+</div>
+</section>
+<section id="for-our-next-item-we-have-to-create-a-conditional-two-way-table.-one-way-will-be-using-filter-and-the-other-way-will-be-doing-a-three-way-table-then-subsetting-it." class="level4">
+<h4 class="anchored" data-anchor-id="for-our-next-item-we-have-to-create-a-conditional-two-way-table.-one-way-will-be-using-filter-and-the-other-way-will-be-doing-a-three-way-table-then-subsetting-it.">For our next item, we have to create a conditional two-way table. One-way will be using filter() and the other way will be doing a three-way table then subsetting it.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsetting with filter() then creating a two-way table. So here we filter our final_join to only show a Pstatus of "A". Then we create a two-way table of sex and family size from that tibble (subset_Apart).</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>subset_Apart <span class="ot">&lt;-</span> <span class="fu">filter</span>(final_join, Pstatus <span class="sc">==</span> <span class="st">"apart"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>table_sex_famsize_Apart <span class="ot">&lt;-</span> <span class="fu">table</span>(subset_Apart<span class="sc">$</span>sex, subset_Apart<span class="sc">$</span>famsize)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(table_sex_famsize_Apart)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+         greater than 3 less or equal to 3
+  Female             12                  6
+  Male                4                  9</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Three-way table then subsetting. Here we create a three-way table and subset it with Pstatus: "Apart", returning us a table of sex and family size based on a condition that the parents are living apart.</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>three_way_sub <span class="ot">&lt;-</span> <span class="fu">table</span>(final_join<span class="sc">$</span>sex, final_join<span class="sc">$</span>famsize, final_join<span class="sc">$</span>Pstatus)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>three_way_sub[ , , <span class="st">"apart"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+         greater than 3 less or equal to 3
+  Female             12                  6
+  Male                4                  9</code></pre>
+</div>
+</div>
+</section>
+<section id="now-were-going-to-create-a-two-way-contingency-table-using-group_by-and-summarize-using-dplyr-from-tidyverse-and-pivot_wider-from-tidyr." class="level4">
+<h4 class="anchored" data-anchor-id="now-were-going-to-create-a-two-way-contingency-table-using-group_by-and-summarize-using-dplyr-from-tidyverse-and-pivot_wider-from-tidyr.">Now we’re going to create a two-way contingency table using group_by() and summarize() using dplyr from tidyverse and pivot_wider from tidyr.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First we're taking final_join and piping it to be grouped by sex and famsize then summarized by sex to create a summary for each group then pivot_wider for a wider format for the display... making it more like a table output.</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>final_join <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, famsize) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> famsize, <span class="at">values_from =</span> count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'sex'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+# Groups:   sex [2]
+  sex    `greater than 3` `less or equal to 3`
+  &lt;fct&gt;             &lt;int&gt;                &lt;int&gt;
+1 Female              130                   44
+2 Male                100                   46</code></pre>
+</div>
+</div>
+</section>
+<section id="last-well-create-a-stacked-bar-graph-and-a-side-by-side-bar-graph-with-labels." class="level4">
+<h4 class="anchored" data-anchor-id="last-well-create-a-stacked-bar-graph-and-a-side-by-side-bar-graph-with-labels.">Last, we’ll create a stacked bar graph and a side-by-side bar graph with labels.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we're creating our stacked bar graph. Using ggplot, we're creating a stacked bar graph between sex and famsize. Using drop_na we remove the rows where sex is missing, aes for the aesthetics, geom_bar for adding a bars to the plot, ggtitle for adding a title, theme for centering the title, labs to label axis, scale_fill... for renaming the legend.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>sex_famsize_stack <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">drop_na</span>(sex),</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">fill =</span> famsize)) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ggtitle</span>(<span class="st">"Sex and Family (Stacked Bar Graph)"</span>) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Sex"</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">scale_fill_discrete</span>(<span class="st">"Family Size"</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>sex_famsize_stack</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>For this previous stacked bar graph, it’s telling us the count of females and males that are in family sizes of either greater than 3 or less than 3. As per the legend, red denotes a family size of greater than 3 and blue denotes a family size of less than 3. The x-axis denotes the sex, whereas the y-axis represents the count of males and females based on family size. Something interesting we see here is that for both males and females, there are more them in family sizes that are greater than 3, almost two to three times more than those in a family size of less or equal to 3. The stacked bar graph visualizes the sexes as a whole, allowing you to see how each sex contributes to the total count visually, however, it makes it difficult to compare individual values.</p>
+</blockquote>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Next we'll create a side-by-side bar graph using sex and famsize. Everything is similar to the previous code except to make it a side-by-side bar graph, we need to add "position = "dodge" to the geom_bar.</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>sex_famsize_side <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">drop_na</span>(sex),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x =</span> sex, <span class="at">fill =</span> famsize)) <span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ggtitle</span>(<span class="st">"Sex and Family (Side-by-Side Bar Graph)"</span>) <span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Sex"</span>,</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">scale_fill_discrete</span>(<span class="st">"Family Size"</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sex_famsize_side)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>This side-by-side graph, even though same in values as the stacked bar graph, allows for easier visual comparison of the values between the sexes.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="numeric-variables-and-across-groups" class="level3">
+<h3 class="anchored" data-anchor-id="numeric-variables-and-across-groups"><em>Numeric Variables (and across groups)</em></h3>
+<section id="first-well-find-the-measures-of-center-and-spread-for-three-variables-age-students-age-numeric-from-15-to-22-absences-number-of-school-absences-numeric-from-0-to-93-and-g3-final-grade-numeric-from-0-to-20-output-target.-as-a-note-for-later-g1-first-period-grade-numeric-from-0-to-20-and-g2-second-period-grade-numeric-from-0-to-20." class="level4">
+<h4 class="anchored" data-anchor-id="first-well-find-the-measures-of-center-and-spread-for-three-variables-age-students-age-numeric-from-15-to-22-absences-number-of-school-absences-numeric-from-0-to-93-and-g3-final-grade-numeric-from-0-to-20-output-target.-as-a-note-for-later-g1-first-period-grade-numeric-from-0-to-20-and-g2-second-period-grade-numeric-from-0-to-20.">First we’ll find the measures of center and spread for three variables (age = student’s age (numeric: from 15 to 22), absences = number of school absences (numeric: from 0 to 93), and G3 = final grade (numeric: from 0 to 20, output target)). As a note for later, G1 = first period grade (numeric: from 0 to 20) and G2 = second period grade (numeric: from 0 to 20).</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarizing measures of center (mean and median) and spread (standard deviation and inter-quartile range).</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>num_var_summary <span class="ot">&lt;-</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_absences =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_G3 =</span> <span class="fu">mean</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_age =</span> <span class="fu">median</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_absences =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_G3 =</span> <span class="fu">median</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_age =</span> <span class="fu">sd</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_absences =</span> <span class="fu">sd</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_G3 =</span> <span class="fu">sd</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_age =</span> <span class="fu">IQR</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_absences =</span> <span class="fu">IQR</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_G3 =</span> <span class="fu">IQR</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat by subsetting the data in a meaningful way by checking for outliers.</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>absencesonly <span class="ot">&lt;-</span> final_join<span class="sc">$</span>absences</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>absences_summary <span class="ot">&lt;-</span> <span class="fu">fivenum</span>(absencesonly)</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(absences_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.0  0.0  4.0  7.5 75.0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finding upper and lower fence for outliers</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fl">7.5</span> <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span><span class="fl">7.5</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18.75</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span> <span class="sc">-</span> <span class="fl">1.5</span><span class="sc">*</span><span class="fl">7.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -11.25</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsetting final_join table for absence outliers then comparing means of absences from original table to the one without outliers.</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>absences_outlier_filter <span class="ot">&lt;-</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(absences <span class="sc">&lt;</span> <span class="fl">18.75</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>absences_outlier_filter</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 308 × 33
+   school sex      age address famsize    Pstatus  Medu  Fedu Mjob  Fjob  reason
+   &lt;chr&gt;  &lt;fct&gt;  &lt;int&gt; &lt;fct&gt;   &lt;fct&gt;      &lt;fct&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; 
+ 1 GP     Female    18 Urban   greater t… apart       4     4 at_h… teac… course
+ 2 GP     Female    17 Urban   greater t… living…     1     1 at_h… other course
+ 3 GP     Female    15 Urban   greater t… living…     4     2 heal… serv… home  
+ 4 GP     Female    16 Urban   greater t… living…     3     3 other other home  
+ 5 GP     Male      16 Urban   less or e… living…     4     3 serv… other reput…
+ 6 GP     Male      16 Urban   less or e… living…     2     2 other other home  
+ 7 GP     Female    17 Urban   greater t… apart       4     4 other teac… home  
+ 8 GP     Male      15 Urban   less or e… apart       3     2 serv… other home  
+ 9 GP     Male      15 Urban   greater t… living…     3     4 other other home  
+10 GP     Female    15 Urban   greater t… living…     4     4 teac… heal… reput…
+# ℹ 298 more rows
+# ℹ 22 more variables: guardian &lt;chr&gt;, traveltime &lt;int&gt;, studytime &lt;int&gt;,
+#   failures &lt;int&gt;, schoolsup &lt;chr&gt;, famsup &lt;chr&gt;, paid &lt;chr&gt;,
+#   activities &lt;chr&gt;, nursery &lt;chr&gt;, higher &lt;chr&gt;, internet &lt;chr&gt;,
+#   romantic &lt;chr&gt;, famrel &lt;int&gt;, freetime &lt;int&gt;, goout &lt;int&gt;, Dalc &lt;int&gt;,
+#   Walc &lt;int&gt;, health &lt;int&gt;, absences &lt;int&gt;, G1 &lt;int&gt;, G2 &lt;int&gt;, G3 &lt;int&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of absences without outliers</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>absences_no_outlier_summary <span class="ot">&lt;-</span> absences_outlier_filter <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_absences_out =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_absences_out =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_absences_out =</span> <span class="fu">sd</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_absences_out =</span> <span class="fu">IQR</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>absences_no_outlier_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  mean_absences_out median_absences_out sd_absences_out IQR_absences_out
+              &lt;dbl&gt;               &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+1              4.33                4.33            4.54                6</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>After obtaining the measures of center and spread for my selected variables, I decided to take the five number summary of absences. From there I found the IQR and used that to find at which what # of absences would become an outlier. IQR = Q3 - Q1, 7.5 - 0 = 7.5. Upper fence (Q3 + 1.5<em>IQR) = 18.75. Anything pass this is number is an outlier. Lower fence (Q1 - 1.5</em>IQR) = -11.25. Since it’s not possible to have negative absences, this means that no actual values fall below this point in the given dataset, or in this case, 0. For this reason, we’ll ignore the lower fence. Then I subsetted the data to filter out potential outliers to see if how our data is heavily skewed by the outliers. There were a total of 12 outliers. Here are the values for absences, before and after: Original Dataset: Mean, Median, SD, IQR: 5.4125, 5.4125, 7.8352, 7.25 No Outliers Data: Mean, Median, SD, IQR: 4.33, 4.33, 4.54, 6.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>By removing the outliers we can better understand how the data behaves without the extreme values that affect the center and spread. This is very helpful and can provide us a better picture of how the data typically behaves and helps us better understanding trends/patterns to make informed decisions about the data. *Notes: Outliers increase the variability in your data, which decreases statistical power. Consequently, excluding outliers can cause your results to become statistically significant.</p>
+</blockquote>
+<hr>
+</section>
+<section id="finding-measures-of-center-and-spread-across-a-single-grouping-variable-of-sex." class="level4">
+<h4 class="anchored" data-anchor-id="finding-measures-of-center-and-spread-across-a-single-grouping-variable-of-sex.">Finding measures of center and spread across a single grouping variable of sex.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping data by sex.</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>summary_by_sex <span class="ot">&lt;-</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_absences =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_G3 =</span> <span class="fu">mean</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_age =</span> <span class="fu">median</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_absences =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_G3 =</span> <span class="fu">median</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_age =</span> <span class="fu">sd</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_absences =</span> <span class="fu">sd</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_G3 =</span> <span class="fu">sd</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_age =</span> <span class="fu">IQR</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_absences =</span> <span class="fu">IQR</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_G3 =</span> <span class="fu">IQR</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>summary_by_sex</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 13
+  sex    mean_age mean_absences mean_G3 median_age median_absences median_G3
+  &lt;fct&gt;     &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+1 Female     16.6          5.78    10.4         17            5.78        11
+2 Male       16.4          4.97    11.8         16            4.97        12
+# ℹ 6 more variables: sd_age &lt;dbl&gt;, sd_absences &lt;dbl&gt;, sd_G3 &lt;dbl&gt;,
+#   IQR_age &lt;dbl&gt;, IQR_absences &lt;dbl&gt;, IQR_G3 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>For this previous summary that we subsetted, we’re looking at the mean, median, standard deviation (sd), and IQR of age, absences, and IQR for males and females. We can see that the mean ages for male (16.397) and female (16.632) are similar, meaning it’s balanced across the dataset - also similar to the standard deviation of the age. However, for absences, females have more absences of 5.782 compared to males which have a mean of 4.973. Interestingly enough, the mean G3 (final grade) of females (10.4) are lower than males (11.8), potentially showcasing that maybe having more absences could affect your final grade. Looking at sd, females are 9.392, compared to males 5.428, showing a wider variance of absences in females than males. As for IQR of final grades, both sexes are at a 5, but when coupled with the mean, males show a higher range of performance.</p>
+</blockquote>
+<hr>
+</section>
+<section id="finding-measures-of-center-and-spread-across-a-two-grouping-variables-of-sex-and-family-size." class="level4">
+<h4 class="anchored" data-anchor-id="finding-measures-of-center-and-spread-across-a-two-grouping-variables-of-sex-and-family-size.">Finding measures of center and spread across a two grouping variables of sex and family size.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping by sex and family size.</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>summary_by_sex_famsize <span class="ot">&lt;-</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, famsize) <span class="sc">|&gt;</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_absences =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_G3 =</span> <span class="fu">mean</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_age =</span> <span class="fu">median</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_absences =</span> <span class="fu">mean</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">median_G3 =</span> <span class="fu">median</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_age =</span> <span class="fu">sd</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_absences =</span> <span class="fu">sd</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_G3 =</span> <span class="fu">sd</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_age =</span> <span class="fu">IQR</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_absences =</span> <span class="fu">IQR</span>(absences, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">IQR_G3 =</span> <span class="fu">IQR</span>(G3, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>            )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'sex'. You can override using the `.groups`
+argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>summary_by_sex_famsize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 14
+# Groups:   sex [2]
+  sex    famsize       mean_age mean_absences mean_G3 median_age median_absences
+  &lt;fct&gt;  &lt;fct&gt;            &lt;dbl&gt;         &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;           &lt;dbl&gt;
+1 Female greater than…     16.6          5.81    10.2         17            5.81
+2 Female less or equa…     16.6          5.70    11.2         17            5.70
+3 Male   greater than…     16.3          4.53    11.6         16            4.53
+4 Male   less or equa…     16.6          5.93    12.2         17            5.93
+# ℹ 7 more variables: median_G3 &lt;dbl&gt;, sd_age &lt;dbl&gt;, sd_absences &lt;dbl&gt;,
+#   sd_G3 &lt;dbl&gt;, IQR_age &lt;dbl&gt;, IQR_absences &lt;dbl&gt;, IQR_G3 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>This summary above shows the mean, median, sd, and IQR of age, absences, and final grades based on sex and family size. In the previous summary we only looked at sex, but now we’re also looking at family size. Something interesting to note is males that are in family sizes greater than 3 have the lowest mean absences of 4.53 out of the compared to the female categories (female/GT3 (5.81) and female/LT3 (5.70)). However, when looking at males/LT3, the mean absences are the highest at a mean of 5.93. This potentially shows that maybe family size has an affect on absences. When looking at the grades, both male in families of GT3 (12.20) and LT3 (11.58) have the highest final grade mean compared to the female GT3 (10.15) and LT3 (11.23). Now looking at sd, while female GT3 absences, there’s an sd of 9.56, the highest of all the groups… even though females have similar mean absences, their sd shows that there’s a wider sd, either indicating a higher variability in absences or there might be an outlier in the data. Values for median and and IQR are balanced and within a value of 2 for all grouped variables.</p>
+</blockquote>
+<hr>
+</section>
+<section id="create-a-correlation-matrix-between-all-numeric-variables." class="level4">
+<h4 class="anchored" data-anchor-id="create-a-correlation-matrix-between-all-numeric-variables.">Create a correlation matrix between all numeric variables.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assigned variable num_vars to the numerical variables of final_join.</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>num_vars <span class="ot">&lt;-</span> final_join <span class="sc">|&gt;</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(age, absences, G1, G2, G3)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Assigned num_cor_matrix to create a correlation of num_vars</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>num_cor_matrix <span class="ot">&lt;-</span> num_vars <span class="sc">|&gt;</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(num_vars[,<span class="fu">c</span>(<span class="st">"age"</span>, <span class="st">"absences"</span>, <span class="st">"G1"</span>, <span class="st">"G2"</span>, <span class="st">"G3"</span>)])</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>num_cor_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                age    absences          G1          G2          G3
+age       1.0000000  0.14392517 -0.11037935 -0.18618740 -0.20603186
+absences  0.1439252  1.00000000 -0.06946116 -0.07580245 -0.02811847
+G1       -0.1103793 -0.06946116  1.00000000  0.86588796  0.81859418
+G2       -0.1861874 -0.07580245  0.86588796  1.00000000  0.91357599
+G3       -0.2060319 -0.02811847  0.81859418  0.91357599  1.00000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Checked to see that type was matrix</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(num_cor_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "matrix" "array" </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>For this correlation matrix above, we’re measuring the association between five numeric variables. When measuring the association between variables, the correlation values (-1 to 1) indicate the strength and direction of the relationship between the two variables. -1 indicates a strong negative correlation, meaning that everytime x increases, y decreases. 0 means that there is no association between the two variables, x and y. 1 indicates a strong positive correlation, meaning that y increases with x. All of matrix values that are 1 is because the matrix is finding the association between the variable with itself (i.e., age and age, absences and absences, etc.). First we’ll start with age and absences, with a correlation of 0.144 this is considered a weak positive correlation, meaning that older students tend to have slightly more absences, but the relationship between the two variables aren’t very strong. As for age and the G variables, G1 (-0.110), G2 (-0.186), and G3 (-0.206), they all indicate a weak negative correlation, between the values of -0.10 and -0.20. This means that older students tend to score slightly lower, however, the relationship between age and the G variables aren’t very strong. Next we have absences. The correlation between absences and all of the G variables are all -0.100 to 0, indicating a weak negative correlation. Because it’s so close to 0, these values show either no relationship or a very slight relationship, meaning that absences may only have a very slight effect on grades. Last, we’ll look at the correlation between the grade variables. G1 and G2 should a strong positive correlation of 0.866, indicating that the relationship between these variables are strong; this means that those who had scored well in G1 may tend to do well in G2. Next is G1 and G3, which shows a correlation of 0.819, also indicating a pretty strong positive correlation. While the correlation of G1 and G3 might not be as strong as the other two, it still shows an overall strong relationship. Last, G2 and G3 has a correlation of 0.914, also indicating a strong positive correlation; this means that those who did well in G2 tend to do well for G3, their final grade.</p>
+</blockquote>
+<hr>
+</section>
+<section id="create-a-histogram-kernel-density-plot-and-boxplot-for-two-of-the-numeric-variables-across-one-categorical-variable." class="level4">
+<h4 class="anchored" data-anchor-id="create-a-histogram-kernel-density-plot-and-boxplot-for-two-of-the-numeric-variables-across-one-categorical-variable.">Create a histogram, kernel density plot, and boxplot for two of the numeric variables across one categorical variable.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a histogram with age, G3, and address, both numeric variables will be compared in the same plot.</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>age_g3_add_histogram <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">drop_na</span>(age, G3)) <span class="sc">+</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">fill =</span> address), <span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">x =</span> G3, <span class="at">fill =</span> address), <span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">position =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggtitle</span>(<span class="st">"Histogram of Age and G3 across Address"</span>) <span class="sc">+</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age and G3"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">fill =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>age_g3_add_histogram</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Using the same variables, we created a histogram. This histogram contains the same information from the density plot but is different visually. Most of the rural data is covered by the urban data, making a little hard to read due to the overlapping histograms. Additionally, we made the binwidth = 1 for readability and used position identity to plot the values as they appear in the dataset. Using fill here would create stacked histograms and be shown as proportion of the total instead. Density plots don’t have the same problem as overlapping histograms, especially in multiple distributions, due to the continuous density lines that help keep the distributions separate. Just making notes for later studying -&gt; (https://clauswilke.com/dataviz/histograms-density-plots.html).</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a density plot with age, G3, and address, both numeric variables will be compared in the same plot.</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>age_g3_add_density <span class="ot">&lt;-</span> </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span> </span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">drop_na</span>(age, G3), <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">fill =</span> address)) <span class="sc">+</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>           <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> G3, <span class="at">fill =</span> address), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">ggtitle</span>(<span class="st">"Density Plot (Smoothed Histogram) of Age and G3 across Address"</span>) <span class="sc">+</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age and G3"</span>, <span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">fill =</span> <span class="st">"Address Variables"</span>) <span class="sc">+</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>           <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>age_g3_add_density</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>For this density plot (smoothed histogram), this shows the distribution of age and G3, distinguished by address (urban vs.&nbsp;rural). The color scheme for address is as follows: red indicates a student’s home address as rural and blue indicates a student’s home address as urban. As seen here from the higher peaks (age distribution) most students are between the ages of 15 to 17, as previously shown in our summaries. The blue peaks indicate that urban students are primarily made up of younger students from 15 to 17. As for red, it seems that there is a small red peak, indicating that there are slightly more rural students around the age of 18 to 20. The lower peaked plots represent G3, final grade, distribution. Looking at the plot, majority of the grades fall between 8 and 12, peaking at around 10 for both rural and urban students (and another slight peak for urban at 15). When comparing both plots, urban students seem to have a wider distribution for both age and final grade, whereas rural students seem to have more of a concentrated distribution.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a box plot with age, G3, and address, both numeric variables will be compared in the same plot.</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>age_g3_add_boxplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">drop_na</span>(age, G3), <span class="fu">aes</span>(<span class="at">x =</span> address)) <span class="sc">+</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> age, <span class="at">fill =</span> address)) <span class="sc">+</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> G3, <span class="at">fill =</span> address)) <span class="sc">+</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggtitle</span>(<span class="st">"Boxplot of Age and G3 across Address"</span>) <span class="sc">+</span></span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age and G3"</span>, <span class="at">y =</span> <span class="st">"Values"</span>, <span class="at">fill =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>age_g3_add_boxplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>This boxplot provides us a five number summary describing the distribution of values age and G3 across address. The five number summary include: maximum (max values in Q3 + 1.5xIQR), median (Q2), minimum (minimum values in Q1 - 1.5xIQR), as well as the 25th (Q1) and 75th (Q3) percentile, which gives us the IQR (Q3 - Q1). These are useful for comparing and visualizing the numeric datas’ distribution, especially for identifying outliers.</p>
+</blockquote>
+<hr>
+</section>
+<section id="create-two-scatterplots-relating-a-g3-variable-to-other-numeric-variables-put-g3-on-y-axis.-jitter-the-points-if-they-sit-on-top-of-each-other.-color-points-by-a-categorical-variable-in-each.-add-appropriate-titles-and-labels." class="level4">
+<h4 class="anchored" data-anchor-id="create-two-scatterplots-relating-a-g3-variable-to-other-numeric-variables-put-g3-on-y-axis.-jitter-the-points-if-they-sit-on-top-of-each-other.-color-points-by-a-categorical-variable-in-each.-add-appropriate-titles-and-labels.">Create two scatterplots relating a G3 variable to other numeric variables (put G3 on y-axis). Jitter the points if they sit on top of each other. Color points by a categorical variable in each. Add appropriate titles and labels.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating scatter plot #1, age and G3 by address</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>g3_age_scatterplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">drop_na</span>(age, G3), <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> G3, <span class="at">color =</span> address)) <span class="sc">+</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggtitle</span>(<span class="st">"Scatterplot of Age and G3 by Address"</span>) <span class="sc">+</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age (Student Age)"</span>, <span class="at">y =</span> <span class="st">"G3 (Final Grade, 0-20)"</span>, <span class="at">color =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>g3_age_scatterplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating scatter plot #2, absences and G3 by address</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>g3_absences_scatterplot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>         <span class="fu">drop_na</span>(absences, G3), <span class="fu">aes</span>(<span class="at">x =</span> absences, <span class="at">y =</span> G3, <span class="at">color =</span> address)) <span class="sc">+</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">ggtitle</span>(<span class="st">"Scatterplot of Absences and G3 by Address"</span>) <span class="sc">+</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Absences (# of school absences)"</span>, <span class="at">y =</span> <span class="st">"G3 (Final Grade, 0-20)"</span>, <span class="at">color =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>g3_absences_scatterplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>Above are two scatter plots (#1: age and G3 by address and #2: absences and G3 by address). Scatter plot #1, age and G3, shows a very weak correlation with no distinct pattern/association. When referring back to the matrix correlation, the correlation between age and G3 was -0.206, indicating a very weak negative relationship between age and final grade… revealing that older students that are 18+ have lower scores than those of the younger students. Additionally, we looked at this by address. So when comparing the relationship between urban and rural students, they showed similar performance with a pretty balanced spread across the scatter plot. Scatter plot #2, absence and G3, shows a very weak negative correlation. Looking back at the matrix correlation, the correlation between absences and G3 was -0.028, indicating a very slight relationship, meaning that absences may only have a very slight effect on grades. When observing by address, there is no clear relationship or pattern between urban and rural students, indicating that perhaps there isn’t much of a difference between the two students in terms of absences and G3 correlation. Something interesting to point out is that there might be a few potential outliers… having 70+ absences is definitely not normal!</p>
+</blockquote>
+</section>
+<section id="repeat-previous-scatter-plot-step-while-using-faceting-for-a-different-categorical-variable." class="level4">
+<h4 class="anchored" data-anchor-id="repeat-previous-scatter-plot-step-while-using-faceting-for-a-different-categorical-variable.">Repeat previous scatter plot step while using faceting for a different categorical variable.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For scatter plot #1, we'll facet with the categorical variable family size.</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>g3_age_facet <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">drop_na</span>(age, G3), <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> G3, <span class="at">color =</span> address)) <span class="sc">+</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">facet_wrap</span>(<span class="sc">~</span> famsize) <span class="sc">+</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggtitle</span>(<span class="st">"Scatterplot of Age and G3 by Address with Family Size Facet"</span>) <span class="sc">+</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age (Student Age)"</span>, <span class="at">y =</span> <span class="st">"G3 (Final Grade, 0-20)"</span>, <span class="at">color =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>g3_age_facet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For scatter plot #2, we'll facet with the categorical variable family size.</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>g3_absences_facet <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">drop_na</span>(age, G3), <span class="fu">aes</span>(<span class="at">x =</span> absences, <span class="at">y =</span> G3, <span class="at">color =</span> address)) <span class="sc">+</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">facet_wrap</span>(<span class="sc">~</span> famsize) <span class="sc">+</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggtitle</span>(<span class="st">"Scatterplot of Absences and G3 by Address with Family Size Facet"</span>) <span class="sc">+</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Absences (# of school absences)"</span>, <span class="at">y =</span> <span class="st">"G3 (Final Grade, 0-20)"</span>, <span class="at">color =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>g3_absences_facet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>We took both of these scatter plots from the previous prompt and applied faceting using facet_wrap(). Faceting is a way to take our plots to produce similar plots across another variable. For these scatter plots, I chose to facet with family size. So in addition to the variables of scatter plot #1 (age, G3, and address) and scatter plot #2 (absences, G3, and address), we’ve added family size to facet with, as this is a way to create multiple subplots based on the factors of the categorical variable. In this case, both plots will be split into two with us now being able to visualize the plots under famsize’s different levels, greater than 3 [family members] or less than 3 [family members]. Both of these facets now allow us to see how relationship between age/absences and G3 changes based on family size across address type. Essentially faceting helps us better/clearly visualize and further compare the relationships across many different categories. *Notes: Faceting helps reduce visual noise by breaking the plot down further. Allows you to have a single, common axis for all facets to easily scan and analyze across all panels to make a direct comparison of data.</p>
+</blockquote>
+</section>
+<section id="repeat-previous-scatter-plot-step-while-using-faceting-for-2-categorical-variables." class="level4">
+<h4 class="anchored" data-anchor-id="repeat-previous-scatter-plot-step-while-using-faceting-for-2-categorical-variables.">Repeat previous scatter plot step while using faceting for 2 categorical variables.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For scatter plot #1, we'll facet with the categorical variable family size AND Pstatus (parent cohabitation status).</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>g3_age_facet2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">drop_na</span>(age, G3), <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> G3, <span class="at">color =</span> address)) <span class="sc">+</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(famsize, Pstatus)) <span class="sc">+</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggtitle</span>(<span class="st">"Scatterplot of Age and G3 by Address with Family Size and Pstatus Facets"</span>) <span class="sc">+</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Age (Student Age)"</span>, <span class="at">y =</span> <span class="st">"G3 (Final Grade, 0-20)"</span>, <span class="at">color =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>g3_age_facet2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For scatter plot #2, we'll facet with the categorical variable family size AND Pstatus (parent cohabitation status).</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>g3_absences_facet2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(final_join <span class="sc">|&gt;</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">drop_na</span>(age, G3), <span class="fu">aes</span>(<span class="at">x =</span> absences, <span class="at">y =</span> G3, <span class="at">color =</span> address)) <span class="sc">+</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(famsize, Pstatus)) <span class="sc">+</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>              <span class="fu">ggtitle</span>(<span class="st">"Scatterplot of Absences and G3 by Address with Family Size and Pstatus Facets"</span>) <span class="sc">+</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>              <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Absences (# of school absences)"</span>, <span class="at">y =</span> <span class="st">"G3 (Final Grade, 0-20)"</span>, <span class="at">color =</span> <span class="st">"Address Variables"</span>)</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>g3_absences_facet2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Week-5---Read,-Modify,-Summarize-Data_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>For these scatter plots, in addition to faceting with family size from the last prompt, this time we’re also faceting with Pstatus for a total of two categorical variables at each subplot. This allows us to split our dataset into four plots by the factors of Pstatus (apart, together) and Family Size (greater than 3, less than 3), allowing us to compare different pairings of family size and parental cohabitation status’ in relationship to absences and G3. Something interesting to note is that for both scatter plots (age and G3, absences and G3), there weren’t many data points when parents lived apart compared to those who lived together. In addition, majority of those data points where parents lived apart come from urban households. *Notes: can also use facet_wrap(vars(var1, var2)), x1 ~ x2, or nrow = # to control nrows/ncols</p>
+</blockquote>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
